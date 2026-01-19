@@ -19,12 +19,10 @@ export const NAV_LINKS = [
   { label: "Services", href: "/services" },
   { label: "Work", href: "/our-work" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const FOOTER_LINKS = [
   { label: "Services", href: "/services" },
   { label: "Work", href: "/our-work" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
 ] as const;
