@@ -1,3 +1,7 @@
+"use client";
+
+import Script from "next/script";
+
 export default function GetAQuotePage() {
   return (
     <section className="pt-20 min-h-screen bg-white">
@@ -35,15 +39,21 @@ export default function GetAQuotePage() {
           </div>
 
           {/* Chat Column */}
-          <div className="bg-cream rounded-lg overflow-hidden border border-border">
-            <iframe
-              src="https://autoquote-phi.vercel.app/embed/chat-page.html?apiKey=ck_911efddcdecd488fa348f43a08ca53c9829666ffb0e7da89f3e87848a71cd322&primaryColor=1a2e44&headerText=Get%20Your%20Free%20Quote"
-              className="w-full h-[600px] border-0"
-              title="Quote Request Chat"
-            />
+          <div className="bg-cream rounded-lg overflow-hidden border border-border min-h-[600px]">
+            <div id="quotrr-chat" style={{ height: "600px" }} />
           </div>
         </div>
       </div>
+
+      <Script
+        src="https://autoquote-phi.vercel.app/embed/quotrr-chat-fullpage.js"
+        data-api-key="ck_911efddcdecd488fa348f43a08ca53c9829666ffb0e7da89f3e87848a71cd322"
+        data-container="quotrr-chat"
+        data-primary-color="#1a2e44"
+        data-header-text="Get Your Free Quote"
+        data-show-header="true"
+        strategy="lazyOnload"
+      />
     </section>
   );
 }
