@@ -13,6 +13,46 @@ export default function GetAQuotePage() {
     addLog("Starting script load...");
     addLog(`Origin: ${window.location.origin}`);
 
+    // Monitor ALL fetch requests
+    const originalFetch = window.fetch;
+    window.fetch = function(...args) {
+      const url = typeof args[0] === 'string' ? args[0] : (args[0] as Request).url;
+      addLog(`Fetch: ${url.substring(0, 80)}...`);
+      return originalFetch.apply(this, args)
+        .then(response => {
+          addLog(`Response ${response.status}: ${url.substring(0, 50)}...`);
+          return response;
+        })
+        .catch(error => {
+          addLog(`✗ Fetch error: ${error.message}`);
+          throw error;
+        });
+    };
+
+    // Monitor ALL WebSocket connections
+    const OriginalWebSocket = window.WebSocket;
+    (window as any).WebSocket = function(url: string, protocols?: string | string[]) {
+      addLog(`WebSocket: ${url}`);
+      const ws = new OriginalWebSocket(url, protocols);
+      ws.addEventListener('open', () => addLog('✓ WebSocket opened'));
+      ws.addEventListener('error', (e) => addLog(`✗ WebSocket error: ${JSON.stringify(e)}`));
+      ws.addEventListener('close', (e) => addLog(`WebSocket closed: code=${e.code}, reason=${e.reason}`));
+      return ws;
+    };
+    (window as any).WebSocket.prototype = OriginalWebSocket.prototype;
+
+    // Monitor XMLHttpRequest
+    const originalXHR = window.XMLHttpRequest;
+    (window as any).XMLHttpRequest = function() {
+      const xhr = new originalXHR();
+      const originalOpen = xhr.open.bind(xhr);
+      (xhr as any).open = function(method: string, url: string, async?: boolean, user?: string, pass?: string) {
+        addLog(`XHR ${method}: ${String(url).substring(0, 60)}...`);
+        return originalOpen(method, url, async ?? true, user, pass);
+      };
+      return xhr;
+    };
+
     const script = document.createElement("script");
     script.src = "https://autoquote-phi.vercel.app/embed/quotrr-chat-fullpage.js";
     script.setAttribute("data-api-key", "ck_911efddcdecd488fa348f43a08ca53c9829666ffb0e7da89f3e87848a71cd322");
@@ -33,23 +73,13 @@ export default function GetAQuotePage() {
 
     document.body.appendChild(script);
 
-    // Monitor for WebSocket connections
-    const OriginalWebSocket = window.WebSocket;
-    (window as any).WebSocket = function(url: string, protocols?: string | string[]) {
-      addLog(`WebSocket connecting to: ${url}`);
-      const ws = new OriginalWebSocket(url, protocols);
-      ws.addEventListener('open', () => addLog('✓ WebSocket opened'));
-      ws.addEventListener('error', () => addLog('✗ WebSocket error'));
-      ws.addEventListener('close', (e) => addLog(`WebSocket closed: code=${e.code}`));
-      return ws;
-    };
-    (window as any).WebSocket.prototype = OriginalWebSocket.prototype;
-
     return () => {
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
+      window.fetch = originalFetch;
       (window as any).WebSocket = OriginalWebSocket;
+      (window as any).XMLHttpRequest = originalXHR;
     };
   }, []);
 
@@ -88,7 +118,7 @@ export default function GetAQuotePage() {
             </div>
 
             {/* Debug Log */}
-            <div className="mt-8 p-4 bg-gray-100 rounded text-xs font-mono">
+            <div className="mt-8 p-4 bg-gray-100 rounded text-xs font-mono max-h-80 overflow-y-auto">
               <p className="font-bold mb-2">Debug Log:</p>
               {debugLog.map((log, i) => (
                 <p key={i} className={log.includes('✗') ? 'text-red-600' : log.includes('✓') ? 'text-green-600' : 'text-gray-600'}>
