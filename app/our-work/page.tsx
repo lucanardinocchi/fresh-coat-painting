@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { COMPANY } from "@/lib/constants";
 
 const projects = [
   { suburb: "Unley", scope: "Full interior repaint", type: "Interior", rooms: "4 bedrooms" },
@@ -13,6 +14,29 @@ const projects = [
   { suburb: "Parkside", scope: "Hallway and skirting", type: "Interior", rooms: "High traffic" },
   { suburb: "Semaphore", scope: "Weatherboards", type: "Exterior", rooms: "Two storey" },
   { suburb: "Fullarton", scope: "Investment property", type: "Interior", rooms: "Full turnover" },
+];
+
+const reviews = [
+  {
+    text: "The edges are razor sharp and they left the place spotless. Highly recommend.",
+    name: "Sarah M.",
+    suburb: "Burnside",
+  },
+  {
+    text: "Great communication from quote to completion. Price was fair and the quality is excellent.",
+    name: "James T.",
+    suburb: "Unley",
+  },
+  {
+    text: "We had a strict deadline before settlement and they made it happen. The finish is perfect.",
+    name: "Lisa & Mark W.",
+    suburb: "Prospect",
+  },
+  {
+    text: "Third time using Fresh Coat across different properties. Consistent quality every time.",
+    name: "David R.",
+    suburb: "Norwood",
+  },
 ];
 
 export default function OurWorkPage() {
@@ -34,8 +58,8 @@ export default function OurWorkPage() {
         <div className="container-max">
           <div className="divide-y divide-border">
             {projects.map((project, index) => (
-              <div key={index} className="py-8 first:pt-0 last:pb-0">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-baseline">
+              <div key={index} className="py-6 first:pt-0 last:pb-0">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-8 items-baseline">
                   <div className="md:col-span-3">
                     <p className="text-navy font-medium">{project.suburb}</p>
                   </div>
@@ -53,6 +77,41 @@ export default function OurWorkPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews */}
+      <section className="section-padding bg-white">
+        <div className="container-max">
+          <div className="flex items-baseline justify-between mb-10">
+            <h2>What customers say</h2>
+            <p className="text-sm text-charcoal-light">
+              {COMPANY.googleRating}★ from {COMPANY.totalReviews} reviews
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {reviews.map((review, index) => (
+              <div key={index} className="border-l-2 border-border pl-6">
+                <blockquote className="text-charcoal-light leading-relaxed mb-4">
+                  &ldquo;{review.text}&rdquo;
+                </blockquote>
+                <p className="text-sm">
+                  <span className="text-navy font-medium">{review.name}</span>
+                  <span className="text-charcoal-light"> · {review.suburb}</span>
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <a
+              href={COMPANY.googleReviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-charcoal-light hover:text-navy transition-colors"
+            >
+              Read all reviews on Google →
+            </a>
           </div>
         </div>
       </section>
