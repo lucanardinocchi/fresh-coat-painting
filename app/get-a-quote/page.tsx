@@ -1,26 +1,4 @@
-"use client";
-
-import { useEffect } from "react";
-
 export default function GetAQuotePage() {
-  useEffect(() => {
-    // Load the Quotrr chat script
-    const script = document.createElement("script");
-    script.src = "https://autoquote-phi.vercel.app/embed/quotrr-chat-fullpage.js";
-    script.setAttribute("data-api-key", "ck_911efddcdecd488fa348f43a08ca53c9829666ffb0e7da89f3e87848a71cd322");
-    script.setAttribute("data-container", "quotrr-chat");
-    script.setAttribute("data-primary-color", "#1a2e44");
-    script.setAttribute("data-header-text", "Get Your Free Quote");
-    script.setAttribute("data-show-header", "true");
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup script on unmount
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
     <section className="pt-20 min-h-screen bg-white">
       <div className="container-max py-12">
@@ -57,8 +35,12 @@ export default function GetAQuotePage() {
           </div>
 
           {/* Chat Column */}
-          <div className="bg-cream rounded-lg overflow-hidden border border-border min-h-[600px]">
-            <div id="quotrr-chat" className="h-[600px]" />
+          <div className="bg-cream rounded-lg overflow-hidden border border-border">
+            <iframe
+              src="https://autoquote-phi.vercel.app/embed/chat-page.html?apiKey=ck_911efddcdecd488fa348f43a08ca53c9829666ffb0e7da89f3e87848a71cd322&primaryColor=1a2e44&headerText=Get%20Your%20Free%20Quote"
+              className="w-full h-[600px] border-0"
+              title="Quote Request Chat"
+            />
           </div>
         </div>
       </div>
