@@ -1,93 +1,91 @@
-import Image from "next/image";
-import { ServiceBlock } from "@/components/sections/ServiceBlock";
-import { CTABanner } from "@/components/sections/CTABanner";
+import { Button } from "@/components/ui/Button";
+
+const services = [
+  {
+    title: "Wallpaper Removal",
+    description:
+      "We strip old wallpaper, repair the surface underneath, and prepare walls for a fresh paint finish.",
+  },
+  {
+    title: "Timber Staining & Varnishing",
+    description:
+      "Decks, pergolas, front doors, and timber features. We sand, prep, and apply quality oil or varnish for lasting protection.",
+  },
+  {
+    title: "Spray Finishes",
+    description:
+      "For cabinetry, doors, and new builds where a flawless factory-style finish matters. We spray on-site or remove doors for off-site spraying.",
+  },
+];
 
 export default function SpecialtyServicesPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section
-        className="relative min-h-[50vh] flex items-center justify-center pt-20"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-navy/40" />
-        <div className="relative z-10 container-max text-center py-16">
-          <h1 className="text-white mb-4">Specialty Services</h1>
-          <p className="text-xl text-white/90 max-w-[600px] mx-auto">
-            Beyond the basics — wallpaper, timber, spray finishes, and colour advice.
+      {/* Hero */}
+      <section className="pt-32 pb-16">
+        <div className="container-max">
+          <p className="text-sm text-charcoal-light mb-4 tracking-wide">Services</p>
+          <h1 className="max-w-2xl mb-6">Specialty Services</h1>
+          <p className="text-lg text-charcoal-light max-w-xl">
+            Beyond the basics—wallpaper, timber, spray finishes, and colour advice.
           </p>
         </div>
       </section>
 
-      {/* Service Blocks */}
-      <section className="bg-white section-padding">
-        <div className="container-max space-y-16">
-          {/* Block 1: Wallpaper Removal */}
-          <ServiceBlock
-            title="Wallpaper Removal"
-            text="We strip old wallpaper, repair the surface underneath, and prepare walls for a fresh paint finish."
-            imageSrc="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
-            imageAlt="Wallpaper removal in progress"
-            imagePosition="left"
-          />
-
-          {/* Block 2: Timber Staining */}
-          <ServiceBlock
-            title="Timber Staining & Varnishing"
-            text="Decks, pergolas, front doors, and timber features. We sand, prep, and apply quality oil or varnish for lasting protection."
-            imageSrc="https://images.unsplash.com/photo-1591825729269-caeb344f6df2?w=800&q=80"
-            imageAlt="Freshly stained timber deck"
-            imagePosition="right"
-          />
-
-          {/* Block 3: Spray Painting */}
-          <ServiceBlock
-            title="Spray Finishes"
-            text="For cabinetry, doors, and new builds where a flawless factory-style finish matters. We spray on-site or remove doors for off-site spraying."
-            imageSrc="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80"
-            imageAlt="Kitchen cabinetry with spray finish"
-            imagePosition="left"
-          />
-        </div>
-      </section>
-
-      {/* Colour Consulting */}
-      <section className="bg-warm-white section-padding">
+      {/* Services */}
+      <section className="section-padding border-t border-border">
         <div className="container-max">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
-            <div>
-              <h2 className="mb-6">Stuck on Colours?</h2>
-              <p className="text-charcoal leading-relaxed">
-                Choosing paint colours is harder than it looks. We&apos;ve partnered with a Dulux colour consultant who can visit your home, assess your lighting and furnishings, and recommend a palette that works. Consultation fee: $150 (refunded if you book your job with us).
-              </p>
-            </div>
-
-            {/* Image */}
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1525909002-1b05e0c869d8?w=800&q=80"
-                alt="Colour swatches on table"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+          <div className="space-y-0 divide-y divide-border">
+            {services.map((service, index) => (
+              <div key={service.title} className="py-12 first:pt-0 last:pb-0">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-12">
+                  <div>
+                    <p className="text-sm text-charcoal-light mb-2">0{index + 1}</p>
+                    <h2 className="text-xl font-medium">{service.title}</h2>
+                  </div>
+                  <div className="lg:col-span-2">
+                    <p className="text-charcoal-light leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Banner */}
-      <CTABanner
-        headline="Ready to refresh your home?"
-        subtext="Get a ballpark estimate in under 2 minutes."
-        buttonLabel="Get Your Free Quote"
-        buttonHref="/get-a-quote"
-      />
+      {/* Colour Consulting */}
+      <section className="section-padding bg-white">
+        <div className="container-max">
+          <div className="max-w-2xl">
+            <h2 className="mb-6">Stuck on colours?</h2>
+            <p className="text-charcoal-light leading-relaxed mb-6">
+              Choosing paint colours is harder than it looks. We&apos;ve partnered 
+              with a Dulux colour consultant who can visit your home, assess your 
+              lighting and furnishings, and recommend a palette that works.
+            </p>
+            <p className="text-charcoal-light leading-relaxed">
+              <span className="text-navy font-medium">Consultation fee: $150</span>
+              <br />
+              <span className="text-sm">(Refunded if you book your job with us)</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-padding bg-navy">
+        <div className="container-max text-center">
+          <h2 className="text-white mb-4">Get a quote for your project</h2>
+          <p className="text-white/70 mb-8 max-w-md mx-auto">
+            Free estimates, no obligation.
+          </p>
+          <Button href="/get-a-quote" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
+            Get Your Free Quote
+          </Button>
+        </div>
+      </section>
     </>
   );
 }

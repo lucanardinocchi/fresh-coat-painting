@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { Check } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { Accordion } from "@/components/ui/Accordion";
-import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
-import { CTABanner } from "@/components/sections/CTABanner";
 
 const serviceItems = [
   "Walls and ceilings (standard heights up to 2.7m)",
@@ -16,23 +14,23 @@ const serviceItems = [
 
 const processSteps = [
   {
-    number: "1",
+    number: "01",
     title: "Get Your Quote",
     text: "Use our online estimator or book a free site visit. We'll measure up and confirm pricing.",
   },
   {
-    number: "2",
+    number: "02",
     title: "Prep & Protect",
     text: "We cover floors, mask edges, fill cracks, and sand surfaces. Prep makes the finish.",
   },
   {
-    number: "3",
+    number: "03",
     title: "Paint",
     text: "Two coats minimum. Ceilings first, then walls, then trim. We cut clean edges by hand.",
   },
   {
-    number: "4",
-    title: "Walkthrough & Handover",
+    number: "04",
+    title: "Walkthrough",
     text: "We walk the job with you, touch up anything needed, and leave your home spotless.",
   },
 ];
@@ -63,78 +61,88 @@ const faqItems = [
 export default function InteriorPaintingPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section
-        className="relative min-h-[50vh] flex items-center justify-center pt-20"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1920&q=80')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-navy/40" />
-        <div className="relative z-10 container-max text-center py-16">
-          <h1 className="text-white mb-4">Interior Painting</h1>
-          <p className="text-xl text-white/90 max-w-[600px] mx-auto">
+      {/* Hero */}
+      <section className="pt-32 pb-16">
+        <div className="container-max">
+          <p className="text-sm text-charcoal-light mb-4 tracking-wide">Services</p>
+          <h1 className="max-w-2xl mb-6">Interior Painting</h1>
+          <p className="text-lg text-charcoal-light max-w-xl">
             Walls, ceilings, doors, and every detail in between.
           </p>
         </div>
       </section>
 
-      {/* Service List */}
-      <section className="bg-white section-padding">
+      {/* What's Included */}
+      <section className="section-padding border-t border-border">
         <div className="container-max">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <h2 className="mb-8">What&apos;s Included</h2>
+              <h2 className="mb-8">What&apos;s included</h2>
               <ul className="space-y-4">
                 {serviceItems.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-terracotta flex-shrink-0 mt-0.5" />
-                    <span className="text-charcoal">{item}</span>
+                  <li key={index} className="flex items-start gap-4">
+                    <Check className="w-5 h-5 text-navy flex-shrink-0 mt-0.5" />
+                    <span className="text-charcoal-light">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Image */}
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80"
-                alt="Painter taping off skirting boards"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+            <div className="lg:pl-8 lg:border-l border-border">
+              <h3 className="text-base font-medium text-navy mb-4">Standard inclusions</h3>
+              <ul className="space-y-3 text-sm text-charcoal-light">
+                <li>• Dulux or Taubmans paint (mid-range)</li>
+                <li>• 2 coats on all surfaces</li>
+                <li>• Light sanding and sugar soap prep</li>
+                <li>• Filling of minor cracks and nail holes</li>
+                <li>• Masking of edges, switches, skirting</li>
+                <li>• Drop sheets throughout</li>
+                <li>• Clean-up and rubbish removal</li>
+                <li>• 3-year workmanship warranty</li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Process */}
-      <section className="bg-warm-white section-padding">
+      {/* Process */}
+      <section className="section-padding bg-white">
         <div className="container-max">
-          <h2 className="text-center mb-12">How It Works</h2>
-          <ProcessTimeline steps={processSteps} />
+          <h2 className="mb-12">How it works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map((step) => (
+              <div key={step.number}>
+                <p className="text-sm text-charcoal-light mb-3">{step.number}</p>
+                <h3 className="text-base font-medium text-navy mb-3">{step.title}</h3>
+                <p className="text-sm text-charcoal-light leading-relaxed">{step.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="bg-white section-padding">
-        <div className="container-max max-w-3xl">
-          <h2 className="text-center mb-10">Common Questions</h2>
-          <Accordion items={faqItems} />
+      <section className="section-padding border-t border-border">
+        <div className="container-max">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="mb-10 text-center">Common questions</h2>
+            <Accordion items={faqItems} />
+          </div>
         </div>
       </section>
 
-      {/* CTA Banner */}
-      <CTABanner
-        headline="Ready to refresh your home?"
-        subtext="Get a ballpark estimate in under 2 minutes."
-        buttonLabel="Get Your Free Quote"
-        buttonHref="/get-a-quote"
-      />
+      {/* CTA */}
+      <section className="section-padding bg-navy">
+        <div className="container-max text-center">
+          <h2 className="text-white mb-4">Get a quote for your project</h2>
+          <p className="text-white/70 mb-8 max-w-md mx-auto">
+            Free estimates, no obligation.
+          </p>
+          <Button href="/get-a-quote" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
+            Get Your Free Quote
+          </Button>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,8 +1,6 @@
-import Image from "next/image";
-import { Check, CloudSun } from "lucide-react";
+import { Check } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { Accordion } from "@/components/ui/Accordion";
-import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
-import { CTABanner } from "@/components/sections/CTABanner";
 
 const serviceItems = [
   "Rendered walls (cement, acrylic, texture coat)",
@@ -16,23 +14,23 @@ const serviceItems = [
 
 const processSteps = [
   {
-    number: "1",
-    title: "Get Your Quote",
-    text: "We'll visit your property, assess the surfaces, and provide a detailed written quote.",
+    number: "01",
+    title: "Site Visit",
+    text: "We visit your property, assess the surfaces, and provide a detailed written quote.",
   },
   {
-    number: "2",
+    number: "02",
     title: "Prep & Wash",
     text: "We pressure wash walls, scrape flaking paint, fill cracks, and prime bare spots.",
   },
   {
-    number: "3",
+    number: "03",
     title: "Paint",
     text: "Two coats of exterior-grade paint. We work section by section and watch the weather.",
   },
   {
-    number: "4",
-    title: "Final Inspection",
+    number: "04",
+    title: "Inspection",
     text: "We walk the perimeter with you and touch up any areas before packing up.",
   },
 ];
@@ -63,92 +61,91 @@ const faqItems = [
 export default function ExteriorPaintingPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section
-        className="relative min-h-[50vh] flex items-center justify-center pt-20"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=1920&q=80')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-navy/40" />
-        <div className="relative z-10 container-max text-center py-16">
-          <h1 className="text-white mb-4">Exterior Painting</h1>
-          <p className="text-xl text-white/90 max-w-[600px] mx-auto">
+      {/* Hero */}
+      <section className="pt-32 pb-16">
+        <div className="container-max">
+          <p className="text-sm text-charcoal-light mb-4 tracking-wide">Services</p>
+          <h1 className="max-w-2xl mb-6">Exterior Painting</h1>
+          <p className="text-lg text-charcoal-light max-w-xl">
             Protection and kerb appeal that lasts.
           </p>
         </div>
       </section>
 
-      {/* Service List */}
-      <section className="bg-white section-padding">
+      {/* What's Included */}
+      <section className="section-padding border-t border-border">
         <div className="container-max">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <h2 className="mb-8">What&apos;s Included</h2>
-              <ul className="space-y-4 mb-6">
+              <h2 className="mb-8">What&apos;s included</h2>
+              <ul className="space-y-4">
                 {serviceItems.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-terracotta flex-shrink-0 mt-0.5" />
-                    <span className="text-charcoal">{item}</span>
+                  <li key={index} className="flex items-start gap-4">
+                    <Check className="w-5 h-5 text-navy flex-shrink-0 mt-0.5" />
+                    <span className="text-charcoal-light">{item}</span>
                   </li>
                 ))}
               </ul>
-              <p className="text-charcoal/80 text-sm italic">
-                All exterior jobs include pressure washing or sugar soap preparation, and paint rated for Adelaide&apos;s UV and weather conditions.
+              <p className="mt-8 text-sm text-charcoal-light/70 italic">
+                All exterior jobs include pressure washing and paint rated for Adelaide&apos;s UV and weather conditions.
               </p>
             </div>
 
-            {/* Image */}
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
-                alt="Completed exterior painting"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+            <div className="lg:pl-8 lg:border-l border-border">
+              <h3 className="text-base font-medium text-navy mb-4">Weather policy</h3>
+              <p className="text-sm text-charcoal-light leading-relaxed mb-6">
+                Exterior painting requires dry conditions and moderate temperatures. 
+                We monitor forecasts closely and will reschedule if rain is likely. 
+                Your job won&apos;t be compromised by bad timing.
+              </p>
+              <h3 className="text-base font-medium text-navy mb-4">Expected lifespan</h3>
+              <p className="text-sm text-charcoal-light leading-relaxed">
+                With proper prep and quality paint, expect 10–15 years before 
+                a repaint is needed.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Process */}
-      <section className="bg-warm-white section-padding">
+      {/* Process */}
+      <section className="section-padding bg-white">
         <div className="container-max">
-          <h2 className="text-center mb-12">How It Works</h2>
-          <ProcessTimeline steps={processSteps} />
-        </div>
-      </section>
-
-      {/* Weather Note */}
-      <section className="bg-white section-padding">
-        <div className="container-max max-w-[700px] text-center">
-          <CloudSun className="w-12 h-12 text-terracotta mx-auto mb-4" />
-          <h3 className="mb-4">We Work With Adelaide Weather</h3>
-          <p className="text-charcoal">
-            Exterior painting requires dry conditions and moderate temperatures. We monitor forecasts closely and will reschedule if rain is likely. Your job won&apos;t be compromised by bad timing.
-          </p>
+          <h2 className="mb-12">How it works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map((step) => (
+              <div key={step.number}>
+                <p className="text-sm text-charcoal-light mb-3">{step.number}</p>
+                <h3 className="text-base font-medium text-navy mb-3">{step.title}</h3>
+                <p className="text-sm text-charcoal-light leading-relaxed">{step.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="bg-warm-white section-padding">
-        <div className="container-max max-w-3xl">
-          <h2 className="text-center mb-10">Common Questions</h2>
-          <Accordion items={faqItems} />
+      <section className="section-padding border-t border-border">
+        <div className="container-max">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="mb-10 text-center">Common questions</h2>
+            <Accordion items={faqItems} />
+          </div>
         </div>
       </section>
 
-      {/* CTA Banner */}
-      <CTABanner
-        headline="Ready to refresh your home?"
-        subtext="Get a ballpark estimate in under 2 minutes."
-        buttonLabel="Get Your Free Quote"
-        buttonHref="/get-a-quote"
-      />
+      {/* CTA */}
+      <section className="section-padding bg-navy">
+        <div className="container-max text-center">
+          <h2 className="text-white mb-4">Get a quote for your project</h2>
+          <p className="text-white/70 mb-8 max-w-md mx-auto">
+            Free estimates, no obligation.
+          </p>
+          <Button href="/get-a-quote" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
+            Get Your Free Quote
+          </Button>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,7 +1,4 @@
-import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { PricingTable } from "@/components/sections/PricingTable";
-import { CTABanner } from "@/components/sections/CTABanner";
 
 const interiorPricing = [
   { item: "Walls", price: "$12–18 per m²" },
@@ -40,110 +37,101 @@ const additionalCharges = [
   { item: "Dark to light colour change", price: "+$3–5 per m²" },
 ];
 
-const includedItems = [
-  "Dulux or Taubmans paint (mid-range)",
-  "2 coats on all surfaces",
-  "Light sanding and sugar soap prep",
-  "Filling of minor cracks and nail holes",
-  "Masking of edges, switches, skirting",
-  "Drop sheets throughout",
-  "Clean-up and rubbish removal",
-  "3-year workmanship warranty",
-];
-
-const notIncludedItems = [
-  "Premium paint upgrades",
-  "Major plastering or repairs",
-  "Furniture moving",
-  "Scaffold for heights over 3.5m",
-  "After-hours or weekend work",
-];
+function PricingTable({ rows }: { rows: { item: string; price: string }[] }) {
+  return (
+    <div className="divide-y divide-border">
+      {rows.map((row, index) => (
+        <div key={index} className="py-4 flex justify-between items-baseline gap-4">
+          <span className="text-charcoal-light">{row.item}</span>
+          <span className="text-navy font-medium text-right">{row.price}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function PricingPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-terracotta min-h-[40vh] flex items-center justify-center pt-20">
-        <div className="container-max text-center py-16">
-          <h1 className="text-white mb-4">Pricing Guide</h1>
-          <p className="text-xl text-white/90 max-w-[600px] mx-auto">
-            Transparent, realistic rates for Adelaide homes.
-          </p>
-        </div>
-      </section>
-
-      {/* Intro Text */}
-      <section className="bg-white section-padding">
-        <div className="container-max max-w-[700px] text-center">
-          <p className="text-charcoal mb-8 leading-relaxed">
-            Every paint job is different — condition, access, colours, and scope all affect the final price. The guide below reflects typical Adelaide market rates for quality work with proper prep. For an accurate quote on your home, use our free online estimator.
-          </p>
-          <Button href="/get-a-quote">Get Your Free Quote</Button>
-        </div>
-      </section>
-
-      {/* Interior Pricing */}
-      <section className="bg-white section-padding pt-0">
+      {/* Hero */}
+      <section className="pt-32 pb-16">
         <div className="container-max">
-          <h2 className="mb-8">Interior Painting</h2>
+          <p className="text-sm text-charcoal-light mb-4 tracking-wide">Pricing</p>
+          <h1 className="max-w-2xl mb-6">Transparent rates</h1>
+          <p className="text-lg text-charcoal-light max-w-xl">
+            Realistic pricing for quality work with proper prep. Every job is different—use 
+            this as a guide, then get your free quote.
+          </p>
+        </div>
+      </section>
+
+      {/* Interior */}
+      <section className="section-padding border-t border-border">
+        <div className="container-max">
+          <h2 className="mb-10">Interior Painting</h2>
           <PricingTable rows={interiorPricing} />
         </div>
       </section>
 
-      {/* Exterior Pricing */}
-      <section className="bg-warm-white section-padding">
+      {/* Exterior */}
+      <section className="section-padding bg-white">
         <div className="container-max">
-          <h2 className="mb-8">Exterior Painting</h2>
+          <h2 className="mb-10">Exterior Painting</h2>
           <PricingTable rows={exteriorPricing} />
         </div>
       </section>
 
-      {/* Additional Charges */}
-      <section className="bg-white section-padding">
+      {/* Additional */}
+      <section className="section-padding border-t border-border">
         <div className="container-max">
-          <h2 className="mb-8">Additional Charges</h2>
+          <h2 className="mb-10">Additional Charges</h2>
           <PricingTable rows={additionalCharges} />
         </div>
       </section>
 
       {/* What's Included */}
-      <section className="bg-warm-white section-padding">
+      <section className="section-padding bg-white">
         <div className="container-max">
-          <h2 className="mb-8 text-center">What&apos;s Included in Every Quote</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-            {includedItems.map((item, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-terracotta flex-shrink-0 mt-0.5" />
-                <span className="text-charcoal">{item}</span>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div>
+              <h2 className="mb-8">Included in every quote</h2>
+              <ul className="space-y-3 text-charcoal-light">
+                <li>• Dulux or Taubmans paint (mid-range)</li>
+                <li>• 2 coats on all surfaces</li>
+                <li>• Light sanding and sugar soap prep</li>
+                <li>• Filling of minor cracks and nail holes</li>
+                <li>• Masking of edges, switches, skirting</li>
+                <li>• Drop sheets throughout</li>
+                <li>• Clean-up and rubbish removal</li>
+                <li>• 3-year workmanship warranty</li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-8">Not included (unless quoted)</h2>
+              <ul className="space-y-3 text-charcoal-light">
+                <li>• Premium paint upgrades</li>
+                <li>• Major plastering or repairs</li>
+                <li>• Furniture moving</li>
+                <li>• Scaffold for heights over 3.5m</li>
+                <li>• After-hours or weekend work</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* What's NOT Included */}
-      <section className="bg-white section-padding">
-        <div className="container-max">
-          <h2 className="mb-8 text-center">What&apos;s Not Included (Unless Quoted)</h2>
-          <ul className="max-w-xl mx-auto space-y-3">
-            {notIncludedItems.map((item, index) => (
-              <li key={index} className="flex items-start gap-3">
-                <span className="text-terracotta font-bold">•</span>
-                <span className="text-charcoal">{item}</span>
-              </li>
-            ))}
-          </ul>
+      {/* CTA */}
+      <section className="section-padding bg-navy">
+        <div className="container-max text-center">
+          <h2 className="text-white mb-4">Get your estimate</h2>
+          <p className="text-white/70 mb-8 max-w-md mx-auto">
+            Our online tool gives you a ballpark in under 2 minutes.
+          </p>
+          <Button href="/get-a-quote" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
+            Get Your Free Quote
+          </Button>
         </div>
       </section>
-
-      {/* CTA Banner */}
-      <CTABanner
-        headline="Want an Accurate Estimate?"
-        subtext="Our online tool gives you a ballpark in under 2 minutes."
-        buttonLabel="Get Your Free Quote"
-        buttonHref="/get-a-quote"
-        variant="navy"
-      />
     </>
   );
 }
