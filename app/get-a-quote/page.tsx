@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function GetAQuotePage() {
+  const [debugLog, setDebugLog] = useState<string[]>([]);
+
+  const addLog = (msg: string) => {
+    setDebugLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
+  };
+
   useEffect(() => {
-    console.log("[Quotrr Debug] Starting script load...");
-    console.log("[Quotrr Debug] Current origin:", window.location.origin);
-    console.log("[Quotrr Debug] Current URL:", window.location.href);
+    addLog("Starting script load...");
+    addLog(`Origin: ${window.location.origin}`);
 
     const script = document.createElement("script");
     script.src = "https://autoquote-phi.vercel.app/embed/quotrr-chat-fullpage.js";
@@ -18,42 +23,33 @@ export default function GetAQuotePage() {
     script.async = true;
 
     script.onload = () => {
-      console.log("[Quotrr Debug] Script loaded successfully");
-      console.log("[Quotrr Debug] Window.QuotrrChatFullPage:", (window as any).QuotrrChatFullPage);
+      addLog("✓ Script loaded successfully");
+      addLog(`QuotrrChatFullPage exists: ${!!(window as any).QuotrrChatFullPage}`);
     };
 
     script.onerror = (error) => {
-      console.error("[Quotrr Debug] Script failed to load:", error);
+      addLog(`✗ Script failed to load: ${error}`);
     };
 
     document.body.appendChild(script);
 
-    // Monitor network requests
-    const originalFetch = window.fetch;
-    window.fetch = function(...args) {
-      const url = args[0];
-      if (typeof url === 'string' && url.includes('quotrr')) {
-        console.log("[Quotrr Debug] Fetch request to:", url);
-      }
-      return originalFetch.apply(this, args).then(response => {
-        if (typeof url === 'string' && url.includes('quotrr')) {
-          console.log("[Quotrr Debug] Fetch response status:", response.status);
-        }
-        return response;
-      }).catch(error => {
-        if (typeof url === 'string' && url.includes('quotrr')) {
-          console.error("[Quotrr Debug] Fetch error:", error);
-        }
-        throw error;
-      });
+    // Monitor for WebSocket connections
+    const OriginalWebSocket = window.WebSocket;
+    (window as any).WebSocket = function(url: string, protocols?: string | string[]) {
+      addLog(`WebSocket connecting to: ${url}`);
+      const ws = new OriginalWebSocket(url, protocols);
+      ws.addEventListener('open', () => addLog('✓ WebSocket opened'));
+      ws.addEventListener('error', () => addLog('✗ WebSocket error'));
+      ws.addEventListener('close', (e) => addLog(`WebSocket closed: code=${e.code}`));
+      return ws;
     };
+    (window as any).WebSocket.prototype = OriginalWebSocket.prototype;
 
     return () => {
-      console.log("[Quotrr Debug] Cleaning up...");
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
-      window.fetch = originalFetch;
+      (window as any).WebSocket = OriginalWebSocket;
     };
   }, []);
 
@@ -89,6 +85,16 @@ export default function GetAQuotePage() {
                   </a>
                 </p>
               </div>
+            </div>
+
+            {/* Debug Log */}
+            <div className="mt-8 p-4 bg-gray-100 rounded text-xs font-mono">
+              <p className="font-bold mb-2">Debug Log:</p>
+              {debugLog.map((log, i) => (
+                <p key={i} className={log.includes('✗') ? 'text-red-600' : log.includes('✓') ? 'text-green-600' : 'text-gray-600'}>
+                  {log}
+                </p>
+              ))}
             </div>
           </div>
 
