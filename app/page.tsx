@@ -66,17 +66,17 @@ export default function HomePage() {
               {
                 title: "Interior Painting",
                 description: "Walls, ceilings, doors, and trim. From single rooms to whole-house repaints.",
-                href: "/services/interior",
+                href: "/services#interior",
               },
               {
                 title: "Exterior Painting",
                 description: "Weatherboards, render, brick, fascias, and fences. Built for Adelaide weather.",
-                href: "/services/exterior",
+                href: "/services#exterior",
               },
               {
                 title: "Specialty Services",
                 description: "Wallpaper removal, timber staining, colour consulting, and spray finishes.",
-                href: "/services/specialty",
+                href: "/services#specialty",
               },
             ].map((service) => (
               <Link
