@@ -16,33 +16,16 @@ export const COMPANY = {
 } as const;
 
 export const NAV_LINKS = [
-  {
-    label: "Services",
-    href: "/services",
-    children: [
-      { label: "Interior Painting", href: "/services/interior" },
-      { label: "Exterior Painting", href: "/services/exterior" },
-      { label: "Specialty Services", href: "/services/specialty" },
-    ],
-  },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Services", href: "/services/interior" },
+  { label: "Work", href: "/our-work" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+] as const;
+
+export const FOOTER_LINKS = [
+  { label: "Services", href: "/services/interior" },
   { label: "Work", href: "/our-work" },
   { label: "About", href: "/about" },
   { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
-] as const;
-
-export const FOOTER_QUICK_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services/interior" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Work", href: "/our-work" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-] as const;
-
-export const FOOTER_SERVICES = [
-  { label: "Interior Painting", href: "/services/interior" },
-  { label: "Exterior Painting", href: "/services/exterior" },
-  { label: "Specialty Services", href: "/services/specialty" },
 ] as const;
