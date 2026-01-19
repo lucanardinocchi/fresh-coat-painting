@@ -1,58 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function GetAQuotePage() {
-  const [debugLog, setDebugLog] = useState<string[]>([]);
-
-  const addLog = (msg: string) => {
-    setDebugLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
-  };
-
   useEffect(() => {
-    addLog("Starting script load...");
-    addLog(`Origin: ${window.location.origin}`);
-
-    // Monitor ALL fetch requests
-    const originalFetch = window.fetch;
-    window.fetch = function(...args) {
-      const url = typeof args[0] === 'string' ? args[0] : (args[0] as Request).url;
-      addLog(`Fetch: ${url.substring(0, 80)}...`);
-      return originalFetch.apply(this, args)
-        .then(response => {
-          addLog(`Response ${response.status}: ${url.substring(0, 50)}...`);
-          return response;
-        })
-        .catch(error => {
-          addLog(`✗ Fetch error: ${error.message}`);
-          throw error;
-        });
-    };
-
-    // Monitor ALL WebSocket connections
-    const OriginalWebSocket = window.WebSocket;
-    (window as any).WebSocket = function(url: string, protocols?: string | string[]) {
-      addLog(`WebSocket: ${url}`);
-      const ws = new OriginalWebSocket(url, protocols);
-      ws.addEventListener('open', () => addLog('✓ WebSocket opened'));
-      ws.addEventListener('error', (e) => addLog(`✗ WebSocket error: ${JSON.stringify(e)}`));
-      ws.addEventListener('close', (e) => addLog(`WebSocket closed: code=${e.code}, reason=${e.reason}`));
-      return ws;
-    };
-    (window as any).WebSocket.prototype = OriginalWebSocket.prototype;
-
-    // Monitor XMLHttpRequest
-    const originalXHR = window.XMLHttpRequest;
-    (window as any).XMLHttpRequest = function() {
-      const xhr = new originalXHR();
-      const originalOpen = xhr.open.bind(xhr);
-      (xhr as any).open = function(method: string, url: string, async?: boolean, user?: string, pass?: string) {
-        addLog(`XHR ${method}: ${String(url).substring(0, 60)}...`);
-        return originalOpen(method, url, async ?? true, user, pass);
-      };
-      return xhr;
-    };
-
     const script = document.createElement("script");
     script.src = "https://autoquote-phi.vercel.app/embed/quotrr-chat-fullpage.js";
     script.setAttribute("data-api-key", "ck_911efddcdecd488fa348f43a08ca53c9829666ffb0e7da89f3e87848a71cd322");
@@ -61,76 +12,29 @@ export default function GetAQuotePage() {
     script.setAttribute("data-header-text", "Get Your Free Quote");
     script.setAttribute("data-show-header", "true");
     script.async = true;
-
-    script.onload = () => {
-      addLog("✓ Script loaded successfully");
-      addLog(`QuotrrChatFullPage exists: ${!!(window as any).QuotrrChatFullPage}`);
-    };
-
-    script.onerror = (error) => {
-      addLog(`✗ Script failed to load: ${error}`);
-    };
-
     document.body.appendChild(script);
 
     return () => {
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
-      window.fetch = originalFetch;
-      (window as any).WebSocket = OriginalWebSocket;
-      (window as any).XMLHttpRequest = originalXHR;
     };
   }, []);
 
   return (
     <section className="pt-20 min-h-screen bg-white">
       <div className="container-max py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Info Column */}
-          <div className="lg:sticky lg:top-32">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-8">
             <p className="text-sm text-charcoal-light mb-4 tracking-wide">Quote</p>
-            <h1 className="mb-6">Get your free quote</h1>
-            <p className="text-charcoal-light leading-relaxed mb-8">
-              Our assistant will guide you through a few questions about your 
-              project. Takes about 2 minutes.
+            <h1 className="mb-4">Get your free quote</h1>
+            <p className="text-charcoal-light">
+              Answer a few questions about your project. Takes about 2 minutes.
             </p>
-
-            <div className="space-y-6 text-sm">
-              <div>
-                <p className="text-navy font-medium mb-2">What you&apos;ll need</p>
-                <ul className="space-y-2 text-charcoal-light">
-                  <li>• Project address</li>
-                  <li>• Approximate room sizes</li>
-                  <li>• Photos (optional but helpful)</li>
-                </ul>
-              </div>
-
-              <div className="pt-6 border-t border-border">
-                <p className="text-navy font-medium mb-2">Prefer to talk?</p>
-                <p className="text-charcoal-light">
-                  Call us on{" "}
-                  <a href="tel:0872254183" className="text-navy hover:text-navy-light transition-colors">
-                    08 7225 4183
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            {/* Debug Log */}
-            <div className="mt-8 p-4 bg-gray-100 rounded text-xs font-mono max-h-80 overflow-y-auto">
-              <p className="font-bold mb-2">Debug Log:</p>
-              {debugLog.map((log, i) => (
-                <p key={i} className={log.includes('✗') ? 'text-red-600' : log.includes('✓') ? 'text-green-600' : 'text-gray-600'}>
-                  {log}
-                </p>
-              ))}
-            </div>
           </div>
 
-          {/* Chat Column */}
-          <div className="bg-cream rounded-lg overflow-hidden border border-border min-h-[600px]">
-            <div id="quotrr-chat" style={{ height: "600px" }} />
+          <div className="bg-cream rounded-lg overflow-hidden border border-border">
+            <div id="quotrr-chat" style={{ height: "550px" }} />
           </div>
         </div>
       </div>
