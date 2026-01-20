@@ -1,46 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
+import { motion } from "framer-motion";
 
 type ButtonVariant = "primary" | "outline" | "ghost";
 
-interface BaseButtonProps {
+interface ButtonProps {
   variant?: ButtonVariant;
   size?: "sm" | "md" | "lg";
   className?: string;
   children: React.ReactNode;
-}
-
-interface ButtonAsButton
-  extends BaseButtonProps,
-    Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseButtonProps> {
-  href?: never;
-  external?: never;
-}
-
-interface ButtonAsLink
-  extends BaseButtonProps,
-    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps> {
-  href: string;
+  href?: string;
   external?: boolean;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+  onClick?: () => void;
 }
-
-type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-navy text-white hover:bg-navy-light",
+    "bg-navy text-white hover:bg-navy-light relative overflow-hidden group",
   outline:
-    "border border-navy text-navy hover:bg-navy hover:text-white",
+    "border-2 border-navy text-navy hover:bg-navy hover:text-white relative overflow-hidden",
   ghost:
-    "text-navy hover:text-navy-light",
+    "text-navy hover:text-navy-light relative",
 };
 
 const sizeStyles = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-6 py-3 text-sm",
-  lg: "px-8 py-4 text-sm",
+  sm: "px-5 py-2.5 text-sm",
+  md: "px-7 py-3.5 text-sm",
+  lg: "px-9 py-4.5 text-base",
 };
 
 export function Button({
@@ -48,40 +37,68 @@ export function Button({
   size = "md",
   className = "",
   children,
-  ...props
+  href,
+  external,
+  type = "button",
+  disabled,
+  onClick,
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium tracking-wide transition-all duration-200";
+    "inline-flex items-center justify-center font-medium tracking-wide transition-all duration-300 rounded-sm";
 
   const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
-  if ("href" in props && props.href) {
-    const { href, external, ...linkProps } = props as ButtonAsLink;
+  // Shimmer effect for primary button
+  const shimmerElement = variant === "primary" && (
+    <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+  );
 
+  const content = (
+    <>
+      {shimmerElement}
+      <span className="relative z-10 flex items-center">{children}</span>
+    </>
+  );
+
+  if (href) {
     if (external) {
       return (
-        <a
+        <motion.a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
           className={combinedStyles}
-          {...linkProps}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          {children}
-        </a>
+          {content}
+        </motion.a>
       );
     }
 
     return (
-      <Link href={href} className={combinedStyles} {...linkProps}>
-        {children}
+      <Link href={href} className={combinedStyles}>
+        <motion.span
+          className="inline-flex items-center justify-center w-full h-full"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {content}
+        </motion.span>
       </Link>
     );
   }
 
   return (
-    <button className={combinedStyles} {...(props as ButtonAsButton)}>
-      {children}
-    </button>
+    <motion.button
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+      className={combinedStyles}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      {content}
+    </motion.button>
   );
 }

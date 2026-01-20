@@ -1,4 +1,11 @@
+"use client";
+
+import { ArrowRight, Star, MapPin, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { AnimateOnScroll, StaggerContainer, StaggerItem } from "@/components/ui/AnimateOnScroll";
+import { StarRating } from "@/components/ui/StarRating";
+import { ImageSlider } from "@/components/ui/ImageSlider";
 import { COMPANY } from "@/lib/constants";
 
 const projects = [
@@ -8,6 +15,9 @@ const projects = [
     detail: "4 bedrooms, 2 living areas, all trim",
     review: "The edges are razor sharp and they left the place spotless. Highly recommend.",
     client: "Sarah M.",
+    rating: 5,
+    beforeImage: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=800&auto=format&fit=crop",
+    afterImage: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop",
   },
   {
     suburb: "Unley",
@@ -15,6 +25,9 @@ const projects = [
     detail: "Heritage home, neutral palette",
     review: "Great communication from quote to completion. Price was fair and the quality is excellent.",
     client: "James T.",
+    rating: 5,
+    beforeImage: "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?q=80&w=800&auto=format&fit=crop",
+    afterImage: "https://images.unsplash.com/photo-1600210492493-0946911123ea?q=80&w=800&auto=format&fit=crop",
   },
   {
     suburb: "Prospect",
@@ -22,6 +35,9 @@ const projects = [
     detail: "Living areas and ceiling",
     review: "We had a strict deadline before settlement and they made it happen. The finish is perfect.",
     client: "Lisa & Mark W.",
+    rating: 5,
+    beforeImage: "https://images.unsplash.com/photo-1560185008-b033106af5c3?q=80&w=800&auto=format&fit=crop",
+    afterImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop",
   },
   {
     suburb: "Norwood",
@@ -29,6 +45,9 @@ const projects = [
     detail: "White gloss finish",
     review: "Third time using Fresh Coat across different properties. Consistent quality every time.",
     client: "David R.",
+    rating: 5,
+    beforeImage: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800&auto=format&fit=crop",
+    afterImage: "https://images.unsplash.com/photo-1556909172-54557c7e4fb7?q=80&w=800&auto=format&fit=crop",
   },
   {
     suburb: "Glenelg",
@@ -36,6 +55,9 @@ const projects = [
     detail: "Single storey, white with charcoal trim",
     review: "Very happy with the work. They kept us informed throughout. End result is great.",
     client: "Karen H.",
+    rating: 5,
+    beforeImage: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=800&auto=format&fit=crop",
+    afterImage: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop",
   },
   {
     suburb: "Goodwood",
@@ -43,92 +65,177 @@ const projects = [
     detail: "1920s bungalow",
     review: "Our bungalow needed careful prep work and they nailed it. Patient with our colour indecision too!",
     client: "Michael S.",
-  },
-  {
-    suburb: "Mitcham",
-    scope: "Kitchen cabinetry",
-    detail: "Spray finish",
-    review: "The finish is like a factory job. Transformed the whole kitchen for a fraction of replacement cost.",
-    client: "Amanda L.",
-  },
-  {
-    suburb: "Semaphore",
-    scope: "Exterior weatherboards",
-    detail: "Two storey home",
-    review: "Neighbours have already asked for Matt's number. Says it all.",
-    client: "Chris P.",
+    rating: 5,
+    beforeImage: "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?q=80&w=800&auto=format&fit=crop",
+    afterImage: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
 export default function OurWorkPage() {
   return (
-    <>
+    <main id="main-content">
       {/* Hero */}
-      <section className="pt-32 pb-16">
+      <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-gradient-radial">
         <div className="container-max">
-          <p className="text-sm text-charcoal-light mb-4 tracking-wide">Work</p>
-          <h1 className="max-w-2xl mb-6">What our clients say</h1>
-          <p className="text-lg text-charcoal-light max-w-xl">
-            {COMPANY.homesPainted}+ homes painted. {COMPANY.googleRating}★ from {COMPANY.totalReviews} reviews.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="badge mb-4">Our Work</span>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="max-w-3xl mb-6"
+          >
+            What our clients say
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-wrap items-center gap-6"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-3xl font-light text-navy">{COMPANY.homesPainted}+</span>
+              <span className="text-charcoal-light">homes painted</span>
+            </div>
+            <div className="w-px h-8 bg-border hidden sm:block" />
+            <div className="flex items-center gap-3">
+              <StarRating rating={COMPANY.googleRating} size={20} />
+              <span className="text-charcoal-light">
+                {COMPANY.googleRating} from {COMPANY.totalReviews} reviews
+              </span>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Projects with Reviews */}
-      <section className="border-t border-border">
-        {projects.map((project, index) => (
-          <div
-            key={index}
-            className={`section-padding ${index % 2 === 1 ? "bg-white" : ""}`}
-          >
-            <div className="container-max">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-                {/* Project Info */}
-                <div>
-                  <p className="text-sm text-charcoal-light mb-2">{project.scope}</p>
-                  <h2 className="text-2xl mb-2">{project.suburb}</h2>
-                  <p className="text-charcoal-light">{project.detail}</p>
-                </div>
+      {/* Projects Gallery */}
+      <section className="section-padding border-t border-border">
+        <div className="container-max">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12" staggerDelay={0.1}>
+            {projects.map((project, index) => (
+              <StaggerItem key={index}>
+                <motion.div
+                  className="bg-white rounded-2xl overflow-hidden card-shadow card-shadow-hover"
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Before/After Slider */}
+                  <ImageSlider
+                    beforeImage={project.beforeImage}
+                    afterImage={project.afterImage}
+                    className="aspect-[16/10]"
+                  />
 
-                {/* Review */}
-                <div className="lg:border-l lg:border-border lg:pl-16">
-                  <blockquote className="text-charcoal-light leading-relaxed mb-4">
-                    &ldquo;{project.review}&rdquo;
-                  </blockquote>
-                  <p className="text-sm text-navy font-medium">{project.client}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+                  {/* Content */}
+                  <div className="p-6 md:p-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="flex items-center gap-2 text-sm text-charcoal-light mb-1">
+                          <MapPin className="w-3 h-3" />
+                          {project.suburb}
+                        </div>
+                        <h3 className="text-xl text-navy">{project.scope}</h3>
+                        <p className="text-sm text-charcoal-light">{project.detail}</p>
+                      </div>
+                      <StarRating rating={project.rating} size={14} animated={false} />
+                    </div>
+
+                    <div className="border-t border-border pt-4 mt-4">
+                      <blockquote className="text-charcoal-light leading-relaxed mb-3 italic">
+                        &ldquo;{project.review}&rdquo;
+                      </blockquote>
+                      <p className="text-sm font-medium text-navy">{project.client}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
       </section>
 
-      {/* Google Link */}
-      <section className="py-12 border-t border-border">
-        <div className="container-max text-center">
-          <a
-            href={COMPANY.googleReviewsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-charcoal-light hover:text-navy transition-colors"
-          >
-            Read all reviews on Google →
-          </a>
+      {/* Google Reviews Link */}
+      <section className="py-16 bg-cream-dark">
+        <div className="container-max">
+          <AnimateOnScroll variant="fadeUp" className="text-center">
+            <div className="inline-flex items-center gap-4 bg-white rounded-full px-6 py-4 card-shadow">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-navy flex items-center justify-center">
+                  <Star className="w-5 h-5 text-white fill-white" />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-medium text-navy">{COMPANY.googleRating} on Google</p>
+                  <p className="text-xs text-charcoal-light">{COMPANY.totalReviews} reviews</p>
+                </div>
+              </div>
+              <a
+                href={COMPANY.googleReviewsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm font-medium text-navy hover:text-navy-light transition-colors"
+              >
+                Read all reviews
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          </AnimateOnScroll>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="section-padding bg-white">
+        <div className="container-max">
+          <AnimateOnScroll variant="fadeUp" className="text-center mb-12">
+            <h2>Our track record</h2>
+          </AnimateOnScroll>
+
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-8" staggerDelay={0.1}>
+            {[
+              { value: "12", label: "Years experience" },
+              { value: "500+", label: "Homes painted" },
+              { value: "100%", label: "Satisfaction rate" },
+              { value: "3yr", label: "Warranty included" },
+            ].map((stat) => (
+              <StaggerItem key={stat.label}>
+                <div className="text-center">
+                  <p className="text-4xl md:text-5xl font-light text-navy mb-2">{stat.value}</p>
+                  <p className="text-sm text-charcoal-light">{stat.label}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-navy">
-        <div className="container-max text-center">
-          <h2 className="text-white mb-4">Your home could be next</h2>
-          <p className="text-white/70 mb-8 max-w-md mx-auto">
-            Get a quote and see what we can do for you.
-          </p>
-          <Button href="/get-a-quote" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
-            Get Your Free Quote
-          </Button>
+      <section className="section-padding mesh-gradient relative overflow-hidden">
+        <div className="container-max relative z-10 text-center">
+          <AnimateOnScroll variant="scale">
+            <h2 className="text-white mb-4">Your home could be next</h2>
+            <p className="text-white/70 mb-8 max-w-md mx-auto text-lg">
+              Get a quote and see what we can do for you.
+            </p>
+            <Button 
+              href="/get-a-quote" 
+              variant="outline" 
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-navy"
+            >
+              Get Your Free Quote
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </AnimateOnScroll>
         </div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
       </section>
-    </>
+    </main>
   );
 }
